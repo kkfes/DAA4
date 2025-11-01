@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/src/test/java/graph/dagsp/DagShortestPathsTest.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/java/graph/dagsp/DagShortestPathsTest.java" />
+              <option name="updatedContent" value="package graph.dagsp;&#10;&#10;import org.junit.jupiter.api.Test;&#10;import java.util.*;&#10;import static org.junit.jupiter.api.Assertions.*;&#10;&#10;public class DagShortestPathsTest {&#10;    @Test&#10;    public void testShortestAndLongest() {&#10;        // build simple DAG: 0 -&gt; 1 (w=2), 0 -&gt; 2 (w=5), 1 -&gt; 2 (w=1)&#10;        List&lt;List&lt;DagShortestPaths.Edge&gt;&gt; adj = new ArrayList&lt;&gt;();&#10;        for (int i = 0; i &lt; 3; i++) adj.add(new ArrayList&lt;&gt;());&#10;        adj.get(0).add(new DagShortestPaths.Edge(1, 2));&#10;        adj.get(0).add(new DagShortestPaths.Edge(2, 5));&#10;        adj.get(1).add(new DagShortestPaths.Edge(2, 1));&#10;&#10;        DagShortestPaths dsp = new DagShortestPaths(adj);&#10;        // topological order can be [0,1,2]&#10;        List&lt;Integer&gt; topo = Arrays.asList(0,1,2);&#10;        DagShortestPaths.Result sres = dsp.shortestFrom(0, topo);&#10;        assertEquals(0L, sres.dist[0]);&#10;        assertEquals(2L, sres.dist[1]);&#10;        assertEquals(3L, sres.dist[2]); // via 0-&gt;1-&gt;2&#10;&#10;        DagShortestPaths.Result lres = dsp.longestFrom(0, topo);&#10;        assertEquals(0L, lres.dist[0]);&#10;        assertEquals(2L, lres.dist[1]);&#10;        assertEquals(5L, lres.dist[2]); // via 0-&gt;2 direct is longest (5) vs via 1 is 3&#10;&#10;        List&lt;Integer&gt; pathTo2 = lres.reconstructPath(2);&#10;        assertTrue(pathTo2.size() &gt;= 2);&#10;        assertEquals(Integer.valueOf(0), pathTo2.get(0));&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
