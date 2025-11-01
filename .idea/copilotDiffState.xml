@@ -3,6 +3,14 @@
   <component name="CopilotDiffPersistence">
     <option name="pendingDiffs">
       <map>
+        <entry key="$PROJECT_DIR$/scripts/summary_datasets.py">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/scripts/summary_datasets.py" />
+              <option name="updatedContent" value="import json, os&#10;from glob import glob&#10;&#10;def is_cyclic(n, edges):&#10;    adj = [[] for _ in range(n)]&#10;    for u,v,_ in edges:&#10;        adj[u].append(v)&#10;    visited = [0]*n&#10;    def dfs(u):&#10;        visited[u]=1&#10;        for v in adj[u]:&#10;            if visited[v]==1:&#10;                return True&#10;            if visited[v]==0 and dfs(v):&#10;                return True&#10;        visited[u]=2&#10;        return False&#10;    for i in range(n):&#10;        if visited[i]==0 and dfs(i):&#10;            return True&#10;    return False&#10;&#10;files = sorted(glob('data/*.json'))&#10;rows = []&#10;for f in files:&#10;    with open(f,'r',encoding='utf-8') as fh:&#10;        txt = fh.read()&#10;        # strip optional comments&#10;        try:&#10;            data = json.loads(txt)&#10;        except Exception as e:&#10;            # try to remove // comments lines&#10;            lines = [l for l in txt.splitlines() if not l.strip().startswith('//')]&#10;            data = json.loads('\n'.join(lines))&#10;    n = data.get('n')&#10;    edges = data.get('edges', [])&#10;    m = len(edges)&#10;    cyc = is_cyclic(n, [(e['u'], e['v'], e.get('w',1)) for e in edges])&#10;    rows.append((os.path.basename(f), n, m, 'cyclic' if cyc else 'acyclic'))&#10;&#10;print('name,n,m,type')&#10;for r in rows:&#10;    print(','.join(map(str,r)))&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/graph/dagsp/DagShortestPathsTest.java">
           <value>
             <PendingDiffInfo>
