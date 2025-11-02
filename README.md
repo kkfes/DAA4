@@ -113,12 +113,12 @@ java -cp target\DAA4-1.0-SNAPSHOT.jar graph.cli.Main
   - Using topological order gives O(n+m) relaxation complexity. For edge-weight model, each edge relaxed once. For node-duration model, a transformation increases graph size (split nodes) and may double number of vertices/edges.
   - Longest path is computed by max-DP in topo order; same complexity as shortest. Numerical range: use long for durations/weights; detect unreachable nodes (INF) and negative cycles (not possible in DAG).
 
-Effect of structure
+## Effect of structure
 - Density: dense graphs increase m and thus runtime linearly in m; SCC detection and condensation construction feel the biggest impact from density.
 - SCC sizes: large SCCs compress to fewer nodes in condensation, reducing DAG size; but forming those SCCs requires exploring many internal edges. If SCCs are huge, the condensation DAG may be small and DAG-SP runs faster.
 - Mixed graphs: if many small SCCs connected by many inter-component edges, condensation might still be large and relatively dense.
 
-Conclusions & practical recommendations
+## Conclusions & practical recommendations
 - Use Tarjan (or Kosaraju) for SCC detection depending on memory model; Tarjan is single-pass and memory-frugal.
 - For scheduling with task durations, prefer edge-weight model if durations are associated with transitions; for node durations, split nodes or adapt DP carefully.
 - For single-source path planning on compressed DAG, always compress SCCs first to avoid cycles and then run topo-based DP for shortest/longest.
