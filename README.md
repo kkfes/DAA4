@@ -1,6 +1,6 @@
-Smart City / Smart Campus Scheduling - Assignment 4
+# Smart City / Smart Campus Scheduling - Assignment 4
 
-What is implemented
+### What is implemented
 - SCC detection using Tarjan's algorithm (graph.scc.TarjanSCC)
 - Condensation graph builder (graph.scc.Condensation)
 - Topological order on condensation DAG (graph.topo.TopologicalSort via Kahn)
@@ -64,7 +64,7 @@ Below is the actual (selected) file tree from the repository root — useful to 
   - graph/topo/TopologicalSortTest.java
 ```
 
-Data summary
+## Data summary
 - The repository includes 9 datasets under `data/` (3 small, 3 medium, 3 large). Below is a summary (name, n, m, type):
 
 name, n, m, type
@@ -81,14 +81,14 @@ name, n, m, type
 
 (Notes: "mixed" indicates presence of both cycles and long acyclic chains.)
 
-Results / Metrics
+## Results / Metrics
 - The code contains a `Metrics` class (graph.metrics.Metrics) with fields:
   - timeNs: elapsed time in nanoseconds
   - dfsVisits, dfsEdges: counters for SCC DFS
   - kahnOps: counter for Kahn operations (push/pop)
   - relaxations: relaxations in DAG-SP
 
-How to collect results (recommended)
+## How to collect results (recommended)
 1) Build the project:
 
 ```cmd
@@ -103,7 +103,7 @@ java -cp target\DAA4-1.0-SNAPSHOT.jar graph.cli.Main
 
 3) Record the printed outputs and augment with timing/metrics by integrating `Metrics` into the algorithms (I can add this if you want). Use `System.nanoTime()` at start/end of each algorithm phase.
 
-Analysis
+## Analysis
 - SCC/Condensation/Topo
   - Tarjan's SCC is linear in edges+vertices (O(n+m)). Bottlenecks appear when the graph is dense (m ~ n^2) because DFS visits many edges; memory for recursion/stack is proportional to n, and component sizes may be large which affects subsequent condensation creation.
   - Building the condensation graph requires scanning all edges and mapping endpoints to component ids — linear in m but with overhead for deduplicating edges between components (I used a HashSet of long keys) which adds memory and hashing cost.
