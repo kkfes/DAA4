@@ -12,6 +12,58 @@ What is implemented
 Weight model
 - I used edge-weight model ("edge") for DAG shortest/longest paths. For node-duration model transform nodes to edges externally or modify DagShortestPaths accordingly.
 
+## Code structure
+Below is a brief overview of the Java package layout and the main classes implemented in the repository (paths are relative to `src/main/java`):
+
+- graph.cli
+  - Main.java — simple command-line runner that reads `data/tasks.json` and executes the pipeline (SCC -> condensation -> topo -> DAG-SP). It also prints metrics and results.
+
+- graph.scc
+  - TarjanSCC.java — Tarjan's strongly connected components algorithm implementation. Produces component ids for each vertex.
+  - Condensation.java — Builds the condensation (component) graph from original graph + component mapping; deduplicates edges between components.
+
+- graph.topo
+  - TopologicalSort.java — Kahn's algorithm for topological ordering of a DAG; returns order and metrics (queue ops).
+
+- graph.dagsp
+  - DagShortestPaths.java — Shortest and longest path computations on a DAG using topological order; supports edge-weight model. Contains inner types Edge and Result.
+
+- graph.metrics
+  - Metrics.java — simple metrics container used across algorithms (timings, counters like dfsVisits, kahnOps, relaxations).
+
+These files are compiled into `target/classes/graph/...` by Maven when building the project.
+
+Repository file tree (actual, selected)
+Below is the actual (selected) file tree from the repository root — useful to navigate the implementation quickly:
+```
+- pom.xml
+- README.md
+- data/
+  - dataset_small_1.json
+  - dataset_small_2.json
+  - dataset_small_3.json
+  - dataset_medium_1.json
+  - dataset_medium_2.json
+  - dataset_medium_3.json
+  - dataset_large_1.json
+  - dataset_large_2.json
+  - dataset_large_3.json
+  - tasks.json
+- scripts/
+  - summary_datasets.py
+- src/main/java/
+  - graph/cli/Main.java
+  - graph/scc/TarjanSCC.java
+  - graph/scc/Condensation.java
+  - graph/topo/TopologicalSort.java
+  - graph/dagsp/DagShortestPaths.java
+  - graph/metrics/Metrics.java
+- src/test/java/
+  - graph/dagsp/DagShortestPathsTest.java
+  - graph/scc/TarjanSCCTest.java
+  - graph/topo/TopologicalSortTest.java
+```
+
 Data summary
 - The repository includes 9 datasets under `data/` (3 small, 3 medium, 3 large). Below is a summary (name, n, m, type):
 
